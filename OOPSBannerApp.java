@@ -1,27 +1,32 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class OOPSBannerApp {
 
-    public static void main(String[] args) {
+    static class CharacterPatternMap {
 
-        String[] letterO = buildO();
-        String[] letterP = buildP();
-        String[] letterS = buildS();
+        private char character;
+        private String[] pattern;
 
-        String[] bannerLines = new String[7];
-
-        for (int i = 0; i < 7; i++) {
-            bannerLines[i] = letterO[i] + "   " +
-                             letterO[i] + "   " +
-                             letterP[i] + "   " +
-                             letterS[i];
+        public CharacterPatternMap(char character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
         }
 
-        for (String line : bannerLines) {
-            System.out.println(line);
+        public char getCharacter() {
+            return character;
+        }
+
+        public String[] getPattern() {
+            return pattern;
         }
     }
 
-    public static String[] buildO() {
-        return new String[]{
+    public static void main(String[] args) {
+
+        Map<Character, CharacterPatternMap> patternLibrary = new HashMap<>();
+
+        patternLibrary.put('O', new CharacterPatternMap('O', new String[]{
                 "  ***  ",
                 " *   * ",
                 "*     *",
@@ -29,11 +34,9 @@ public class OOPSBannerApp {
                 "*     *",
                 " *   * ",
                 "  ***  "
-        };
-    }
+        }));
 
-    public static String[] buildP() {
-        return new String[]{
+        patternLibrary.put('P', new CharacterPatternMap('P', new String[]{
                 "****  ",
                 "*   * ",
                 "*   * ",
@@ -41,11 +44,9 @@ public class OOPSBannerApp {
                 "*     ",
                 "*     ",
                 "*     "
-        };
-    }
+        }));
 
-    public static String[] buildS() {
-        return new String[]{
+        patternLibrary.put('S', new CharacterPatternMap('S', new String[]{
                 " **** ",
                 "*     ",
                 "*     ",
@@ -53,6 +54,26 @@ public class OOPSBannerApp {
                 "     *",
                 "     *",
                 " **** "
-        };
+        }));
+
+        String word = "OOPS";
+
+        String[] bannerLines = new String[7];
+
+        for (int i = 0; i < 7; i++) {
+
+            StringBuilder lineBuilder = new StringBuilder();
+
+            for (char ch : word.toCharArray()) {
+                String[] pattern = patternLibrary.get(ch).getPattern();
+                lineBuilder.append(pattern[i]).append("   ");
+            }
+
+            bannerLines[i] = lineBuilder.toString();
+        }
+
+        for (String line : bannerLines) {
+            System.out.println(line);
+        }
     }
 }
