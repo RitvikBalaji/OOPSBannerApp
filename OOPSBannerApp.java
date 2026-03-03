@@ -3,30 +3,20 @@ import java.util.Map;
 
 public class OOPSBannerApp {
 
-    static class CharacterPatternMap {
-
-        private char character;
-        private String[] pattern;
-
-        public CharacterPatternMap(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
-
-        public char getCharacter() {
-            return character;
-        }
-
-        public String[] getPattern() {
-            return pattern;
-        }
-    }
-
     public static void main(String[] args) {
 
-        Map<Character, CharacterPatternMap> patternLibrary = new HashMap<>();
+        Map<Character, String[]> patternMap = buildPatternMap();
 
-        patternLibrary.put('O', new CharacterPatternMap('O', new String[]{
+        String word = "OOPS";
+
+        renderBanner(word, patternMap);
+    }
+
+    public static Map<Character, String[]> buildPatternMap() {
+
+        Map<Character, String[]> map = new HashMap<>();
+
+        map.put('O', new String[]{
                 "  ***  ",
                 " *   * ",
                 "*     *",
@@ -34,9 +24,9 @@ public class OOPSBannerApp {
                 "*     *",
                 " *   * ",
                 "  ***  "
-        }));
+        });
 
-        patternLibrary.put('P', new CharacterPatternMap('P', new String[]{
+        map.put('P', new String[]{
                 "****  ",
                 "*   * ",
                 "*   * ",
@@ -44,9 +34,9 @@ public class OOPSBannerApp {
                 "*     ",
                 "*     ",
                 "*     "
-        }));
+        });
 
-        patternLibrary.put('S', new CharacterPatternMap('S', new String[]{
+        map.put('S', new String[]{
                 " **** ",
                 "*     ",
                 "*     ",
@@ -54,26 +44,26 @@ public class OOPSBannerApp {
                 "     *",
                 "     *",
                 " **** "
-        }));
+        });
 
-        String word = "OOPS";
+        return map;
+    }
 
-        String[] bannerLines = new String[7];
+    public static void renderBanner(String word, Map<Character, String[]> patternMap) {
 
-        for (int i = 0; i < 7; i++) {
+        int height = 7;
+
+        for (int i = 0; i < height; i++) {
 
             StringBuilder lineBuilder = new StringBuilder();
 
             for (char ch : word.toCharArray()) {
-                String[] pattern = patternLibrary.get(ch).getPattern();
+
+                String[] pattern = patternMap.get(ch);
                 lineBuilder.append(pattern[i]).append("   ");
             }
 
-            bannerLines[i] = lineBuilder.toString();
-        }
-
-        for (String line : bannerLines) {
-            System.out.println(line);
+            System.out.println(lineBuilder.toString());
         }
     }
 }
